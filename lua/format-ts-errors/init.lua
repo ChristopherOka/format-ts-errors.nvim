@@ -216,10 +216,11 @@ end
 M[2345] = function(msg)
   -- Argument of type '{}' is not assignable to parameter of type 'ItemPublicTokenExchangeRequest'.
   -- Type '{}' is missing the following properties from type 'ItemPublicTokenExchangeRequest': client_name, language, country_codes, user
+  local matchers = { "twopat", "missing_named_properties" }
   local formatted_lines = {}
   local lines = vim.fn.split(msg, "\n")
   for i, line in ipairs(lines) do
-    local matcher_result = M.line_parsers[matcher[i]](line)
+    local matcher_result = M.line_parsers[matchers[i]](line)
     if matcher_result:len() > 0 then
       table.insert(formatted_lines, matcher_result)
     end
