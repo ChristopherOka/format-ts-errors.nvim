@@ -193,4 +193,72 @@ M.line_parsers = {
   end,
 }
 
+M[1360] = function(msg)
+  return M.format_lines(msg, { "twopat", "threepat" })
+end
+
+M[2322] = function(msg)
+  -- "Type 'string' is not assignable to type 'undefined'"
+  -- Type '<T extends Record<string, string>>(table: string, calcEngine: string | undefined, tab: string | undefined, predicate: ((row: T) => boolean) | undefined) => Record<string, string>[]' is not assignable to type '<T extends Record<string, string>>(table: string, calcEngine?: string | undefined, tab?: string | undefined, predicate?: ((row: T) => boolean) | undefined) => T[]'.
+  return M.format_lines(msg, { "twopat", "missing_named_properties" })
+end
+
+M[2339] = function(msg)
+  --- Property 'SOMETHING' does not exist on type '{ KEY: `${value}/val/val`; KEY2: `${string}/api`; }'.
+  return M.format_lines(msg, { "twopat" })
+end
+
+M[2353] = function(msg)
+  -- Object literal may only specify known properties, and 'third' does not exist in type '{ second: { str: string; int: number; }; }'.
+  return M.format_lines(msg, { "twopat" })
+end
+
+M[2345] = function(msg)
+  -- Argument of type '{}' is not assignable to parameter of type 'ItemPublicTokenExchangeRequest'.
+  -- Type '{}' is missing the following properties from type 'ItemPublicTokenExchangeRequest': client_name, language, country_codes, user
+  return M.format_lines(msg, { "twopat", "missing_named_properties" })
+end
+
+M[2654] = function(msg)
+  -- Non-abstract class 'PolygonClientHandler' is missing implementations for the following members of 'AbstractKeyedWSHandler<BarsClientMessage, BarChannel, Destroyable>': 'createSubscription', 'parseMessage', 'onParsedMessage'.
+  return M.format_lines(msg, { "missing_implementations" })
+end
+
+M[2739] = function(msg)
+  -- Type '{}' is missing the following properties from type 'LinkTokenCreateRequest': client_name, language, country_codes, user
+  return M.format_lines(msg, { "missing_named_properties" })
+end
+
+M[2740] = function(msg)
+  -- Type '{}' is missing the following properties from type 'LinkTokenCreateRequest': client_name, language, country_codes, user
+  return M.format_lines(msg, { "missing_named_properties" })
+end
+
+M[2741] = function(msg)
+  -- @TODO format this like 2345
+  -- Property 'first' is missing in type '{}' but required in type 'Deep'.
+  ---@diagnostic disable-next-line: unused-local
+  local _start, _end, needle, a, b = msg:find(
+    "Property '(.-)' is missing in type '(.-)' but required in type '(.*)'."
+  )
+  if needle and a and b then
+    local second, lines2 = M.format_object_type(b)
+    local last = (
+      #lines2 > 1 and "but required in type\n%s" or "but required in type %s"
+    ):format(second)
+    return table.concat({
+      ("Property '%s' is missing in type"):format(needle),
+      ("%s"):format(M.format_object_type(a)),
+      last,
+    }, "\n")
+  end
+  return msg
+end
+
+M[7053] = function(msg)
+  -- Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+  -- No index signature with a parameter of type 'string' was found on type '{ "ask.shop_visit_hour_2": string; "ask.shop_visit_hour_1": string; "ask.shop_visit_day_1": string; "ask.shop_visit_day_2": string; "ask.tel": string; "ask.contact_hour": string; "ask.method": string; ... 5 more ...; "ask.shop_id": string; }'.
+  return M.format_lines(msg, { "threepat", "twopat" })
+end
+
 return M
