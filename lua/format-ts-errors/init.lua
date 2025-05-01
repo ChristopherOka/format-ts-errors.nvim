@@ -97,11 +97,15 @@ end
 M.format_lines = function(msg, matchers)
   local formatted_lines = {}
   local lines = vim.fn.split(msg, "\n")
+  print(vim.inspect(lines))
   for _, line in ipairs(lines) do
     local matcher_result = ""
     for _, matcher in ipairs(matchers) do
       if matcher_result:len() == 0 then
         matcher_result = M.line_parsers[matcher](line)
+        print(matcher)
+        print(line)
+        print(matcher_result)
         if matcher_result:len() > 0 then
           table.insert(formatted_lines, matcher_result)
         end
