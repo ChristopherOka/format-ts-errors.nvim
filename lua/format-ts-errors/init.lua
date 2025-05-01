@@ -97,8 +97,6 @@ end
 M.format_lines = function(msg, matchers)
   local formatted_lines = {}
   local lines = vim.fn.split(msg, "\n")
-  print(vim.inspect(matchers))
-  print(vim.inspect(ipairs(matchers)))
   for _, line in ipairs(lines) do
     local matcher_result = ""
     for _, matcher in ipairs(matchers) do
@@ -218,7 +216,19 @@ end
 M[2345] = function(msg)
   -- Argument of type '{}' is not assignable to parameter of type 'ItemPublicTokenExchangeRequest'.
   -- Type '{}' is missing the following properties from type 'ItemPublicTokenExchangeRequest': client_name, language, country_codes, user
-  return M.format_lines(msg, { "twopat", "missing_named_properties" })
+  local formatted_lines = {}
+  local lines = vim.fn.split(msg, "\n")
+  for i, line in ipairs(lines) do
+    local matcher_result = M.line_parsers[matcher[i]](line)
+    if matcher_result:len() > 0 then
+      table.insert(formatted_lines, matcher_result)
+    end
+    -- no match, return default
+    if matcher_result:len() == 0 then
+      table.insert(formatted_lines, line)
+    end
+  end
+  return table.concat(formatted_lines, "\n")
 end
 
 M[2654] = function(msg)
