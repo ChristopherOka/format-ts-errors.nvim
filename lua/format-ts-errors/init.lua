@@ -214,9 +214,9 @@ M[2353] = function(msg)
 end
 
 M[2345] = function(msg)
-  -- Property 'public_token' is missing in type '{}' but required in type 'ItemPublicTokenExchangeRequest'.
   -- Argument of type '{}' is not assignable to parameter of type 'ItemPublicTokenExchangeRequest'.
-  return M.format_lines(msg, { "threepat", "twopat" })
+  -- Type '{}' is missing the following properties from type 'ItemPublicTokenExchangeRequest': client_name, language, country_codes, user
+  return M.format_lines(msg, { "twopat", "missing_named_properties" })
 end
 
 M[2654] = function(msg)
