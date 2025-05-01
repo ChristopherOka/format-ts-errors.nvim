@@ -216,7 +216,7 @@ end
 M[2345] = function(msg)
   -- Argument of type '{}' is not assignable to parameter of type 'ItemPublicTokenExchangeRequest'.
   -- Type '{}' is missing the following properties from type 'ItemPublicTokenExchangeRequest': client_name, language, country_codes, user
-  return M.format_lines(msg, { "twopat", "missing_named_properties" })
+  return M.format_lines(msg, { "missing_named_properties", "missing_named_properties" })
 end
 
 M[2654] = function(msg)
