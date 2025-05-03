@@ -224,7 +224,7 @@ M[2345] = function(msg)
   local formatted_lines = {}
   local lines = vim.fn.split(msg, "\n")
   for i, line in ipairs(lines) do
-    if M.substring_exists(line, 'is missing the following properties')) then
+    if M.substring_exists(line, 'is missing the following properties') then
       matcher = matchers[2]
   else
     matcher = matchers[1]
