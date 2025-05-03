@@ -38,6 +38,10 @@ M.bulletted = function(csv)
   )
 end
 
+M.substring_exists = function(searchStr, substr)
+return searchStr:find(substr, 1, true) ~= nul
+end
+
 ---@param o string e.g. {someinlinebrackets;likethis;}
 ---@return string,string[] # return indented pretty type def, e.g.:
 --- {
@@ -220,7 +224,13 @@ M[2345] = function(msg)
   local formatted_lines = {}
   local lines = vim.fn.split(msg, "\n")
   for i, line in ipairs(lines) do
-    local matcher_result = M.line_parsers[matchers[i]](line)
+    if M.substring_exists(line, 'is missing the following properties')) then
+      matcher = matchers[2]
+  else
+    matcher = matchers[1]
+  end
+
+    local matcher_result = M.line_parsers[matcher](line)
     if matcher_result:len() > 0 then
       table.insert(formatted_lines, matcher_result)
     end
